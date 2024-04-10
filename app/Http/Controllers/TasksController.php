@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Auth;
 class TasksController extends Controller
 {
 
+
+    /**
+     * Constructor
+     *
+     * @param models $repository
+     */
     public function __construct(
         protected Tasks $repository,
     ) {
@@ -71,6 +77,10 @@ class TasksController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task criada!');
     }
 
+    /**
+     * Shows the task data visualization
+     */
+
     public function show(string $id){
         $data = $this->repository->find($id);
 
@@ -117,6 +127,10 @@ class TasksController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task excluida!');
     }
 
+
+    /**
+     * Change status as per given status_id
+     */
     public function alter_status($task_id, $status_id){
         $task = $this->repository->findOrFail($task_id);
         $task->status_id = $status_id;
@@ -127,7 +141,7 @@ class TasksController extends Controller
     }
 
     /**
-     * Valid if login was sent.
+     * Valid if data was sent.
      */
     private function validator($data)
     {

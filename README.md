@@ -147,7 +147,7 @@ $id = id_task
 response: redirect route auth.index com os dados filtrados.
 
 **GET|HEAD** - tasks/{task_id}/alter_status/{status_id}
-description: Altera o status conforme a ação feita.
+description: Altera o status conforme o status_id fornecido.
 parameters: 
 ```sh
 $task_id = id_task;

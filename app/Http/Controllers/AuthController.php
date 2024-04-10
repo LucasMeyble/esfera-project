@@ -8,12 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+
+    /**
+     * Show the form to log in.
+     */
     public function index()
     {
         return view("login");
     }
 
-     /**
+    /**
      * Handle an authentication attempt.
      */
     public function authenticate(Request $request)
@@ -37,7 +41,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * log out of the system.
      */
     public function destroy()
     {
