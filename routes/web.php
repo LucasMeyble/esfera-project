@@ -16,10 +16,6 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/', function () {
-    return 'User';
-});
-
 Route::controller(AuthController::class)->group(function () {
     Route::get('/', 'index')->name('auth.index');
     Route::post('login', 'authenticate')->name('auth.login');
