@@ -77,8 +77,8 @@ php artisan key:generate
 Acessar o projeto
 [http://localhost:8989](http://localhost:8989)
 
-**USUARIOS PADRÃO**: 
-admin@gmail.com - password
+**USUARIOS PADRÃO**: <br>
+admin@gmail.com - password <br>
 lucas@gmail.com - 123456789
 
 Para rodar os teste basta rodar o comando php artisan test no terminal
@@ -89,8 +89,8 @@ php artisan test
 
 ## Rotas do projeto
 
-**POST** - login
-description: Lidar com uma tentativa de autenticação.
+**POST** - login<br>
+description: Lidar com uma tentativa de autenticação.<br>
 parameters: 
 ```sh
 [
@@ -100,16 +100,16 @@ parameters:
 ```
 response: redirect route tasks.index
 
-**GET|HEAD** - logout
-description: Lidar com uma tentativa de deslogar do sistema.
+**GET|HEAD** - logout<br>
+description: Lidar com uma tentativa de deslogar do sistema.<br>
 parameters: 
 ```sh
 nenhum
 ```
 response: redirect route auth.index
 
-**GET|HEAD** - tasks
-description: Exibir uma listagem do recurso.
+**GET|HEAD** - tasks<br>
+description: Exibir uma listagem do recurso.<br>
 parameters: 
 ```sh
 $request 
@@ -120,8 +120,8 @@ $request
 ```
 response: redirect route auth.index com os dados filtrados.
 
-**POST** - tasks
-description: Armazene um recurso recém-criado no banco de dados.
+**POST** - tasks<br>
+description: Armazene um recurso recém-criado no banco de dados.<br>
 parameters: 
 ```sh
 $request 
@@ -132,24 +132,24 @@ $request
 ```
 response: redirect route auth.index com os dados filtrados.
 
-**GET|HEAD** - tasks/create
-description: Mostre o formulário para criação de um novo recurso.
+**GET|HEAD** - tasks/create<br>
+description: Mostre o formulário para criação de um novo recurso.<br>
 parameters: 
 ```sh
 nenhum
 ```
 response: retorna a view new_task.
 
-**GET|HEAD** - tasks/delete/{id}
-description: Remova o recurso especificado do banco de dados.
+**GET|HEAD** - tasks/delete/{id}<br>
+description: Remova o recurso especificado do banco de dados.<br>
 parameters: 
 ```sh
 $id = id_task
 ```
 response: redirect route auth.index com os dados filtrados.
 
-**GET|HEAD** - tasks/{task_id}/alter_status/{status_id}
-description: Altera o status conforme o status_id fornecido.
+**GET|HEAD** - tasks/{task_id}/alter_status/{status_id}<br>
+description: Altera o status conforme o status_id fornecido.<br>
 parameters: 
 ```sh
 $task_id = id_task;
@@ -157,16 +157,16 @@ $status_id = new_status_id;
 ```
 response: redirect route auth.index com os dados filtrados.
 
-**GET|HEAD** - tasks/{task}
-description: Mostra a vizualização dos dados da task.
+**GET|HEAD** - tasks/{task}<br>
+description: Mostra a vizualização dos dados da task.<br>
 parameters: 
 ```sh
 $task = id_task;
 ```
 response: retorna a view view_task.
 
-**PUT|PATCH** - tasks/{task}
-description: Atualize o recurso especificado no banco de dados.
+**PUT|PATCH** - tasks/{task}<br>
+description: Atualize o recurso especificado no banco de dados.<br>
 parameters: 
 ```sh
 $request 
@@ -179,8 +179,8 @@ $task = id_task;
 ```
 response: redirect route auth.index com os dados filtrados.
 
-**GET|HEAD** - tasks/{task}/edit
-description: Mostra a vizualização dos dados da task.
+**GET|HEAD** - tasks/{task}/edit<br>
+description: Mostra a vizualização dos dados da task.<br>
 parameters: 
 ```sh
 $task = id_task;
