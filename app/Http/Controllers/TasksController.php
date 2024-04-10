@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Tasks;
+use App\Models\Status;
+use Illuminate\Support\Facades\Auth;
 
 class TasksController extends Controller
 {
@@ -17,9 +19,25 @@ class TasksController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return "ola";
+        $title = $request->title;
+        $status_id = $request->status_id;
+
+        $status = new Status;
+        $data = $this->repository
+            ->when($title, function($q, $title){
+                $q->where('title', $title);
+            })
+            ->when($status_id, function($q, $status_id){
+                $q->where('status_id', $status_id);
+            })
+            ->where('status_id', '<>', 4)
+            ->leftJoin('status_task', 'tasks.status_id', '=', 'status_task.id')
+            ->select('tasks.*', 'status_task.color', 'status_task.name')
+            ->get();
+
+        return view("dashboard", ['tasks' => $data]);
     }
 
     /**
@@ -36,30 +54,27 @@ class TasksController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $user = Auth::user();
+
+        $data['user_id'] = $user['id'];
+        $data['email'] = $user['email'];
+        $data['status_id'] = '1';
+
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro ao cadastrar o task.',
-                'erros' => $validator->errors()->all()
-            ], 401);
+            return redirect()->route('tasks.create')->with('error', $validator->errors()->all());
         }
 
         $task = $this->repository->create($data);
 
-        return response()->json([
-            'data' => $task,
-            'state' => 'created'
-        ], 201);
+        return redirect()->route('tasks.index')->with('success', 'Task criada!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+    public function show(string $id){
+        $data = $this->repository->find($id);
+
+        return view('view_task', ['task' => $data]);
     }
 
     /**
@@ -67,7 +82,9 @@ class TasksController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data = $this->repository->find($id);
+
+        return view('edit_task', ['task' => $data]);
     }
 
     /**
@@ -75,7 +92,17 @@ class TasksController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $task = $this->repository->findOrFail($id);
+        $data = $request->all();
+        $validator = $this->validator($data);
+
+        if ($validator->fails()) {
+            return redirect()->route('tasks.edit', $id)->with('error', $validator->errors()->all());
+        }
+
+        $task->update($data);
+
+        return redirect()->route('tasks.index')->with('success', 'Task atualizada!');
     }
 
     /**
@@ -83,7 +110,20 @@ class TasksController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $task = $this->repository->findOrFail($id);
+        $task->delete();
+        $task->update(['status_id' => 3]);
+
+        return redirect()->route('tasks.index')->with('success', 'Task excluida!');
+    }
+
+    public function alter_status($task_id, $status_id){
+        $task = $this->repository->findOrFail($task_id);
+        $task->status_id = $status_id;
+
+        $task->save();
+
+        return redirect()->route('tasks.index')->with('success', 'Status da task atualizado!');
     }
 
     /**
@@ -92,11 +132,11 @@ class TasksController extends Controller
     private function validator($data)
     {
         return Validator::make($data, [
-            'titulo' => 'required|string',
-            'descricao' => 'required|string',
+            'title' => 'required|string',
+            'description' => 'required|string',
         ], [
-            'titulo.required' => 'O titulo é obrigatório',
-            'descricao.required' => 'A descricao é obrigatória',
+            'title.required' => 'O titulo é obrigatório',
+            'description.required' => 'A descricao é obrigatória',
         ]);
     }
 }

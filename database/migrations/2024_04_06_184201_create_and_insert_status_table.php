@@ -18,12 +18,13 @@ return new class extends Migration
             $table->smallInteger('status');
             $table->string("color", 7);
         });
-        
+
         // Adicionar itens na tabela status_task
         DB::table('status_task')->insert([
-            ['status' => 1, 'name' => 'ativo', 'color' => '#0000FF'],
-            ['status' => 2, 'name' => 'concluído', 'color' => '#00FF7F'],
-            ['status' => 3, 'name' => 'excluida', 'color' => '#808080']
+            ['status' => 1, 'name' => 'Ativo', 'color' => '#6495ED'],
+            ['status' => 2, 'name' => 'Em progresso', 'color' => '#FFBF00'],
+            ['status' => 3, 'name' => 'Concluído', 'color' => '#40E0D0'],
+            ['status' => 4, 'name' => 'Excluida', 'color' => '#DE3163']
         ]);
     }
 
