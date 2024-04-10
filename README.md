@@ -74,10 +74,12 @@ Gerar a key do projeto Laravel
 php artisan key:generate
 ```
 
-
 Acessar o projeto
 [http://localhost:8989](http://localhost:8989)
 
+**USUARIOS PADRÃO**: 
+admin@gmail.com - password
+lucas@gmail.com - 123456789
 
 Para rodar os teste basta rodar o comando php artisan test no terminal
 ```sh
